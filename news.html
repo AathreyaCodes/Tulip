@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tulip - News</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gradient: linear-gradient(to bottom right, #A9FF68, #FF8989);
+        }
+
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 80px 20px 20px;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(28, 28, 28, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 30px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(169, 255, 104, 0.04), 0 10px 30px rgba(255, 137, 137, 0.06);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left a, #logout {
+            color: #ffffff;
+            text-decoration: none;
+            margin-right: 20px;
+            font-family: 'Tiny5', sans-serif;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-left a:hover, #logout:hover {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        #logout
+        {
+            font-family: 'Tiny5', sans-serif;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #a9ff68f4, #ff8989e2);
+            border: none;
+            border-radius: 15px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #logout:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 0 30px rgba(46, 46, 46, 0.5);
+        }
+
+        .header {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 40px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-title {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: var(--gradient);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background: var(--gradient);
+            border: 4px solid #000000;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -16px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background: #1C1C1C;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-date {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 18px;
+            margin-bottom: 10px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .timeline-media {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .upcoming-shows {
+            background: #1C1C1C;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .show-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .show-date {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 18px;
+            padding: 10px;
+            background: var(--gradient);
+            color: #000000;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .show-info {
+            flex-grow: 1;
+        }
+
+        .notifications {
+            background: #1C1C1C;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .notification-item {
+            background: #2A2A2A;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notification-content {
+            flex-grow: 1;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-button {
+            background: transparent;
+            border: none;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            transform: scale(1.1);
+        }
+
+        .action-button i {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 20px;
+            }
+
+            .header {
+                font-size: 36px;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item::after {
+                left: 15px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <a href="home.html">Home</a>
+                <a href="society.html">Society</a>
+                <a href="petals.html">Petals</a>
+                <a href="news.html">News</a>
+                <a href="media.html">Media</a>
+            </div>
+            <div class="nav-right">
+                <button id="logout">Log-out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="header">News</h1>
+        
+        <section class="timeline">
+            <h2 class="section-title">Production Timeline</h2>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">May 1, 2024</div>
+                    <h3>Script Finalized</h3>
+                    <p>Our talented writers have put the finishing touches on our modern adaptation of Romeo and Juliet. Get ready for a fresh take on this classic tale!</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">May 15, 2024</div>
+                    <h3>Auditions Begin</h3>
+                    <p>Calling all aspiring actors! Auditions for our production start today. Show us your passion and bring these characters to life!</p>
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Audition Scene" class="timeline-media">
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">June 1, 2024</div>
+                    <h3>Rehearsals Commence</h3>
+                    <p>With our cast now complete, we're diving into rehearsals. The energy is electric as our actors bring the script to life!</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">July 10, 2024</div>
+                    <h3>Set Design Unveiled</h3>
+                    <p>Our creative team has outdone themselves! Check out the first look at our innovative set design that will transport you to Verona.</p>
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Set Design" class="timeline-media">
+                </div>
+            </div>
+        </section>
+
+        <section class="upcoming-shows">
+            <h2 class="section-title">Upcoming Shows</h2>
+            <div class="show-item">
+                <div class="show-date">Aug 15</div>
+                <div class="show-info">
+                    <h3>Opening Night</h3>
+                    <p>7:00 PM - School Auditorium</p>
+                </div>
+            </div>
+            <div class="show-item">
+                <div class="show-date">Aug 16</div>
+                <div class="show-info">
+                    <h3>Evening Performance</h3>
+                    <p>7:30 PM - School Auditorium</p>
+                </div>
+            </div>
+            <div class="show-item">
+                <div class="show-date">Aug 17</div>
+                <div class="show-info">
+                    <h3>Matinee Show</h3>
+                    <p>2:00 PM - School Auditorium</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="notifications">
+            <h2 class="section-title">Recent Notifications</h2>
+            <div class="notification-item">
+                <div class="notification-content">
+                    <p>Costume fitting schedule has been updated. Check your assigned time slot!</p>
+                </div>
+                <div class="notification-actions">
+                    <button class="action-button"><i class="fas fa-check"></i></button>
+                    <button class="action-button"><i class="fas fa-heart"></i></button>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-content">
+                    <p>Tech rehearsal extended by 1 hour this Saturday. Please adjust your schedules accordingly.</p>
+                </div>
+                <div class="notification-actions">
+                    <button class="action-button"><i class="fas fa-check"></i></button>
+                    <button class="action-button"><i class="fas fa-heart"></i></button>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-content">
+                    <p>New promotional posters are ready! Stop by the art room to pick up your copy.</p>
+                </div>
+                <div class="notification-actions">
+                    <button class="action-button"><i class="fas fa-check"></i></button>
+                    <button class="action-button"><i class="fas fa-heart"></i></button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('logout').addEventListener('click', function() {
+            // Add logout functionality here
+            alert('Logout clicked');
+        });
+
+        // Add hover effect to buttons
+        const buttons = document.querySelectorAll('.action-button');
+        buttons.forEach(button => {
+            button.addEventListener('mouseover', function() {
+                this.style.transform = 'scale(1.1)';
+            });
+            button.addEventListener('mouseout', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add glow effect to timeline items
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        timelineItems.forEach(item => {
+            item.addEventListener('mouseover', function() {
+                this.querySelector('.timeline-content').style.boxShadow = '0 0 20px rgba(169, 255, 104, 0.3)';
+            });
+            item.addEventListener('mouseout', function() {
+                this.querySelector('.timeline-content').style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+            });
+        });
+    </script>
+</body>
+</html>

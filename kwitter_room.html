@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tulip</title>
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/live/3.1/firebase.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <a href="#home">Home</a>
+                <a href="#explore">Explore</a>
+                <a href="#messages">Messages</a>
+            </div>
+            <div class="nav-right">
+                <button id="logout" onclick="logout()">Log-out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="header">Society</h1>
+        <h3 id="user_name" class="welcome-text"></h3>
+        
+        <div class="room-creation">
+            <div class="input-group">
+                <label id="create-room-label">Create Room</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="room_name" placeholder="Enter room name">
+                <button onclick="addRoom()" class="create-room-btn">Create</button>
+            </div>
+        </div>
+
+        <div class="rooms-section">
+            <h3 class="section-title">Active Rooms</h3>
+            <div id="output" class="rooms-grid">
+                <!-- Room cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="kwitter_room.js"></script>
+</body>
+</html>

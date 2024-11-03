@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tulip</title>
+    <link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Tiny5&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="kwitter.js"></script>
+    <style>
+        .container {
+            max-width: 2400px; /* Increased from 500px */
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+        }
+        .form-group label {
+            font-weight: bold;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+        .form-control {
+            flex-grow: 1;
+        }
+        .cormorant-garamond-light {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 300;
+            font-style: normal;
+        }
+        .cormorant-garamond-regular {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .cormorant-garamond-medium {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+        .cormorant-garamond-semibold {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 600;
+            font-style: normal;
+        }
+        .cormorant-garamond-bold {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 700;
+            font-style: normal;
+        }
+        .cormorant-garamond-light-italic {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 300;
+            font-style: italic;
+        }
+        .cormorant-garamond-regular-italic {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 400;
+            font-style: italic;
+        }
+        .cormorant-garamond-medium-italic {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 500;
+            font-style: italic;
+        }
+        .cormorant-garamond-semibold-italic {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 600;
+            font-style: italic;
+        }
+        .cormorant-garamond-bold-italic {
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 700;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <img src="icon.jpg" class="logo" alt="Tulip Logo">
+    <div class="container">
+        <h1 class="header tiny5-regular">Tulip</h1>
+        <h3 class="subtitle tiny5-regular">See what is happening in the world right now.</h3>
+        <div style="display: flex; align-items: center; width: 100%;">
+            <div class="form-group">
+                <label class="manrope-text">User Name:</label>
+                <input type="text" id="user_name" class="form-control manrope-text" placeholder="Enter your name here">
+            </div>
+            <button id="login_button" class="btn btn-primary tiny5-regular" onclick="addUser()">Explore!</button>
+        </div>
+        <div class="gradient-border"></div>
+    </div>
+</body>
+</html>

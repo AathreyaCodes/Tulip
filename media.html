@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tulip - Media</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gradient: linear-gradient(to bottom right, #A9FF68, #FF8989);
+            --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 80px 20px 20px;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(28, 28, 28, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 30px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(169, 255, 104, 0.04), 0 10px 30px rgba(255, 137, 137, 0.06);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left a, #logout {
+            color: #ffffff;
+            text-decoration: none;
+            margin-right: 20px;
+            font-family: 'Tiny5', sans-serif;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-left a:hover, #logout:hover {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        #logout
+        {
+            font-family: 'Tiny5', sans-serif;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #a9ff68f4, #ff8989e2);
+            border: none;
+            border-radius: 15px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #logout:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 0 30px rgba(46, 46, 46, 0.5);
+        }
+
+        .header {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 40px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .link-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .link-card {
+            background: #1C1C1C;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #FFFFFF;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient);
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .link-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(169, 255, 104, 0.2);
+        }
+
+        .link-icon {
+            font-size: 24px;
+            margin-right: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .link-card:hover .link-icon {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .link-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .link-title {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .link-description {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .cta-button {
+            display: block;
+            width: 200px;
+            margin: 40px auto 0;
+            padding: 15px 30px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 30px;
+            color: #000000;
+            font-family: 'Tiny5', sans-serif;
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(169, 255, 104, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 20px;
+            }
+
+            .header {
+                font-size: 36px;
+            }
+
+            .link-cards {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <a href="home.html">Home</a>
+                <a href="society.html">Society</a>
+                <a href="petals.html">Petals</a>
+                <a href="news.html">News</a>
+                <a href="media.html">Media</a>
+            </div>
+            <div class="nav-right">
+                <button id="logout">Log-out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="header">Media</h1>
+        
+        <div class="link-cards">
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fab fa-instagram"></i></div>
+                <div class="link-content">
+                    <div class="link-title">Instagram</div>
+                    <div class="link-description">Behind-the-scenes photos and stories</div>
+                </div>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fab fa-tiktok"></i></div>
+                <div class="link-content">
+                    <div class="link-title">TikTok</div>
+                    <div class="link-description">Short, fun videos from rehearsals</div>
+                </div>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fab fa-youtube"></i></div>
+                <div class="link-content">
+                    <div class="link-title">YouTube</div>
+                    <div class="link-description">Trailers and extended clips</div>
+                </div>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fab fa-twitter"></i></div>
+                <div class="link-content">
+                    <div class="link-title">Twitter</div>
+                    <div class="link-description">Latest updates and announcements</div>
+                </div>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon"><i class="fab fa-facebook"></i></div>
+                <div class="link-content">
+                    <div class="link-title">Facebook</div>
+                    <div class="link-description">Event details and community discussions</div>
+                </div>
+            </a>
+        </div>
+
+        <a href="#" class="cta-button">Follow All</a>
+    </div>
+
+    <script>
+        document.getElementById('logout').addEventListener('click', function() {
+            // Add logout functionality here
+            alert('Logout clicked');
+        });
+
+        // Add hover effect to link cards
+        const linkCards = document.querySelectorAll('.link-card');
+        linkCards.forEach(card => {
+            card.addEventListener('mouseover', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 10px 20px rgba(169, 255, 104, 0.2)';
+            });
+            card.addEventListener('mouseout', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Add hover effect to CTA button
+        const ctaButton = document.querySelector('.cta-button');
+        ctaButton.addEventListener('mouseover', function() {
+            this.style.transform = 'translateY(-3px)';
+            this.style.boxShadow = '0 10px 20px rgba(169, 255, 104, 0.3)';
+        });
+        ctaButton.addEventListener('mouseout', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    </script>
+</body>
+</html>

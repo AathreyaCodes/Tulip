@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tulip - Petals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gradient: linear-gradient(to bottom right, #A9FF68, #FF8989);
+        }
+
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 80px 20px 20px;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(28, 28, 28, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 30px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(169, 255, 104, 0.04), 0 10px 30px rgba(255, 137, 137, 0.06);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left a, #logout {
+            color: #ffffff;
+            text-decoration: none;
+            margin-right: 20px;
+            font-family: 'Tiny5', sans-serif;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-left a:hover, #logout:hover {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        #logout
+        {
+            font-family: 'Tiny5', sans-serif;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #a9ff68f4, #ff8989e2);
+            border: none;
+            border-radius: 15px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #logout:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 0 30px rgba(46, 46, 46, 0.5);
+        }
+
+        .header {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 40px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subheader {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #FFFFFF;
+        }
+
+        .horizontal-rule {
+            border: 0;
+            height: 2px;
+            background: var(--gradient);
+            margin: 40px 0;
+        }
+
+        .featured-video {
+            background: #1C1C1C;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-video::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: var(--noise);
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .featured-video-player {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .featured-video-player img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--gradient);
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 32px;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(169, 255, 104, 0.5);
+        }
+
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .featured-video-title {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 24px;
+            margin-top: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .video-card {
+            background: #1C1C1C;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(169, 255, 104, 0.2);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: 'Tiny5', sans-serif;
+            font-size: 12px;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .video-views {
+            font-family: 'Tiny5', sans-serif;
+        }
+
+        .like-button {
+            background: transparent;
+            border: none;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .like-button:hover {
+            transform: scale(1.1);
+        }
+
+        .like-button i {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .shorts-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+
+        .short-video {
+            display: inline-block;
+            width: 150px;
+            margin-right: 20px;
+            vertical-align: top;
+        }
+
+        .short-thumbnail {
+            position: relative;
+            width: 150px;
+            height: 266px; /* 9:16 aspect ratio */
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .short-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .short-title {
+            font-size: 14px;
+            margin-top: 10px;
+            white-space: normal;
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            flex: 0 0 100%;
+            height: 100%;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: #FFFFFF;
+            padding: 10px;
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        .carousel-control.prev {
+            left: 10px;
+        }
+
+        .carousel-control.next {
+            right: 10px;
+        }
+
+        .video-player-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .video-player-container {
+            max-width: 1200px;
+            margin: 100px auto 0;
+            padding: 20px;
+        }
+
+        .video-player {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(169, 255, 104, 0.3);
+        }
+
+        .video-player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .video-controls button {
+            background: transparent;
+            border: none;
+            color: #FFFFFF;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-controls button:hover {
+            transform: scale(1.1);
+        }
+
+        .video-controls button i {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .video-details {
+            margin-top: 30px;
+        }
+
+        .video-details h2 {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 24px;
+            margin-bottom: 10px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .comments-section {
+            margin-top: 40px;
+        }
+
+        .comment {
+            background: #1C1C1C;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .emoji-reactions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .emoji-reaction {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .emoji-reaction:hover {
+            transform: scale(1.2);
+        }
+
+        .comment-form {
+            margin-top: 20px;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: #1C1C1C;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+        }
+
+        .comment-submit {
+            background: var(--gradient);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .comment-submit:hover {
+            transform: scale(1.05);
+        }
+
+        .suggested-videos {
+            background: #1C1C1C;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .suggested-video {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .suggested-video:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .suggested-thumbnail {
+            width: 120px;
+            height: 67.5px; /* 16:9 aspect ratio */
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+            border: 2px solid transparent;
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            background-image: linear-gradient(#1C1C1C, #1C1C1C), var(--gradient);
+        }
+
+        .suggested-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .suggested-info {
+            flex-grow: 1;
+        }
+
+        .suggested-title {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .suggested-views {
+            font-family: 'Tiny5', sans-serif;
+            font-size: 12px;
+            color:  #999;
+        }
+
+        .close-player {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #FFFFFF;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-player:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 20px;
+            }
+
+            .header {
+                font-size: 36px;
+            }
+
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .video-player-container {
+                margin-top: 60px;
+            }
+
+            .carousel {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <a href="home.html">Home</a>
+                <a href="society.html">Society</a>
+                <a href="petals.html">Petals</a>
+                <a href="news.html">News</a>
+                <a href="media.html">Media</a>
+            </div>
+            <div class="nav-right">
+                <button id="logout">Log-out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="header">Petals</h1>
+        
+        <section class="featured-video">
+            <div class="featured-video-player">
+                <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Featured Video Thumbnail">
+                <button class="play-button" onclick="openVideoPlayer('featured')"><i class="fas fa-play"></i></button>
+            </div>
+            <h2 class="featured-video-title">Behind the Scenes: Romeo and Juliet Rehearsal</h2>
+        </section>
+
+        <hr class="horizontal-rule">
+
+        <h2 class="subheader">Trending Shorts</h2>
+        <div class="shorts-container">
+            <div class="short-video">
+                <div class="short-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Short Video Thumbnail">
+                </div>
+                <div class="short-title">Quick Costume Change</div>
+            </div>
+            <div class="short-video">
+                <div class="short-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Short Video Thumbnail">
+                </div>
+                <div class="short-title">Backstage Bloopers</div>
+            </div>
+            <div class="short-video">
+                <div class="short-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Short Video Thumbnail">
+                </div>
+                <div class="short-title">Prop Making Magic</div>
+            </div>
+            <div class="short-video">
+                <div class="short-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Short Video Thumbnail">
+                </div>
+                <div class="short-title">Makeup Transformation</div>
+            </div>
+            <div class="short-video">
+                <div class="short-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Short Video Thumbnail">
+                </div>
+                <div class="short-title">Set Design Timelapse</div>
+            </div>
+        </div>
+
+        <hr class="horizontal-rule">
+
+        <h2 class="subheader">Featured Moments</h2>
+        <div class="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Carousel Image 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Carousel Image 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Carousel Image 3">
+                </div>
+            </div>
+            <a href="#" class="carousel-control prev" onclick="moveCarousel(-1)">&#10094;</a>
+            <a href="#" class="carousel-control next" onclick="moveCarousel(1)">&#10095;</a>
+        </div>
+
+        <hr class="horizontal-rule">
+
+        <h2 class="subheader">Latest Videos</h2>
+        <section class="video-grid">
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Video Thumbnail">
+                    <div class="video-duration">3:45</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Costume Design Process</h3>
+                    <div class="video-meta">
+                        <span class="video-views">1.2K views</span>
+                        <button class="like-button"><i class="fas fa-heart"></i> 89</button>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Video Thumbnail">
+                    <div class="video-duration">5:20</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Set Building Time-lapse</h3>
+                    <div class="video-meta">
+                        <span class="video-views">2.8K views</span>
+                        <button class="like-button"><i class="fas fa-heart"></i> 156</button>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Video Thumbnail">
+                    <div class="video-duration">2:15</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Actor Interview: Playing Juliet</h3>
+                    <div class="video-meta">
+                        <span class="video-views">3.5K views</span>
+                        <button class="like-button"><i class="fas fa-heart"></i> 201</button>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Video Thumbnail">
+                    <div class="video-duration">4:30</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Lighting Tech Showcase</h3>
+                    <div class="video-meta">
+                        <span class="video-views">1.9K views</span>
+                        <button class="like-button"><i class="fas fa-heart"></i> 112</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="video-player-page" id="videoPlayerPage">
+        <div class="video-player-container">
+            <button class="close-player" onclick="closeVideoPlayer()"><i class="fas fa-times"></i></button>
+            <div class="video-player">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="video-controls">
+                <button onclick="togglePlay()"><i class="fas fa-play"></i></button>
+                <button onclick="toggleLike()"><i class="fas fa-heart"></i></button>
+            </div>
+            <div class="video-details">
+                <h2>Behind the Scenes: Romeo and Juliet Rehearsal</h2>
+                <p>Get an exclusive look at our talented cast as they prepare for the upcoming performance of Romeo and Juliet.</p>
+            </div>
+            <div class="comments-section">
+                <h3>Comments</h3>
+                <div id="comments-container">
+                    <!-- Comments will be dynamically added here -->
+                </div>
+                <form id="comment-form" class="comment-form">
+                    <textarea id="comment-input" class="comment-input" placeholder="Add a comment..." required></textarea>
+                    <button type="submit" class="comment-submit">Post Comment</button>
+                </form>
+            </div>
+        </div>
+        <div class="suggested-videos">
+            <h3>Suggested Videos</h3>
+            <div class="suggested-video">
+                <div class="suggested-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Suggested Video Thumbnail">
+                </div>
+                <div class="suggested-info">
+                    <div class="suggested-title">Costume Design Process</div>
+                    <div class="suggested-views">1.2K views</div>
+                </div>
+            </div>
+            <div class="suggested-video">
+                <div class="suggested-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Suggested Video Thumbnail">
+                </div>
+                <div class="suggested-info">
+                    <div class="suggested-title">Set Building Time-lapse</div>
+                    <div class="suggested-views">2.8K views</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+
+        function moveCarousel(direction) {
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            document.querySelector('.carousel-inner').style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function openVideoPlayer(videoId) {
+            document.getElementById('videoPlayerPage').style.display = 'block';
+            // In a real application, you would load the correct video based on the videoId
+        }
+
+        function closeVideoPlayer() {
+            document.getElementById('videoPlayerPage').style.display = 'none';
+        }
+
+        function togglePlay() {
+            // Implement play/pause functionality
+            console.log('Toggle play/pause');
+        }
+
+        function toggleLike() {
+            // Implement like functionality
+            console.log('Toggle like');
+        }
+
+        document.getElementById('logout').addEventListener('click', function() {
+            // Add logout functionality here
+            alert('Logout clicked');
+        });
+
+        // Add hover effect to buttons
+        const buttons = document.querySelectorAll('.like-button, .emoji-reaction');
+        buttons.forEach(button => {
+            button.addEventListener('mouseover', function() {
+                this.style.transform = 'scale(1.1)';
+            });
+            button.addEventListener('mouseout', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add glow effect to video cards
+        const videoCards = document.querySelectorAll('.video-card');
+        videoCards.forEach(card => {
+            card.addEventListener('mouseover', function() {
+                this.style.boxShadow = '0 0 20px rgba(169, 255, 104, 0.3)';
+            });
+            card.addEventListener('mouseout', function() {
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Comment functionality
+        const commentForm = document.getElementById('comment-form');
+        const commentsContainer = document.getElementById('comments-container');
+        const commentInput = document.getElementById('comment-input');
+
+        commentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const commentText = commentInput.value.trim();
+            if (commentText) {
+                addComment(commentText);
+                commentInput.value = '';
+            }
+        });
+
+        function addComment(text) {
+            const comment = document.createElement('div');
+            comment.className = 'comment';
+            comment.innerHTML = `
+                <div class="comment-author">User</div>
+                <p>${text}</p>
+                <div class="emoji-reactions">
+                    <button class="emoji-reaction" onclick="reactToComment(this)">👍</button>
+                    <button class="emoji-reaction" onclick="reactToComment(this)">❤️</button>
+                    <button class="emoji-reaction" onclick="reactToComment(this)">😮</button>
+                </div>
+            `;
+            commentsContainer.prepend(comment);
+        }
+
+        function reactToComment(button) {
+            button.classList.toggle('active');
+            // You can add more functionality here, like updating a reaction count
+        }
+
+        // Initialize with some comments
+        addComment("This is so exciting! Can't wait to see the final performance!");
+        addComment("The set design looks amazing. Great job to the tech crew!");
+    </script>
+</body>
+</html>
